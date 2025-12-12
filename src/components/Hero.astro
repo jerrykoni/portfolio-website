@@ -3,59 +3,96 @@ import { Link } from 'accessible-astro-components'
 import { Icon } from 'astro-icon/components'
 import { Image } from 'astro:assets'
 
-/**
- * Hero Component
- *
- * @description A component that displays a hero section with a title, description, and image
- */
 interface Props {
-  /**
-   * The source URL for the image
-   */
   src?: string
 }
 
 const { src = '/astronaut-hero-img.webp' }: Props = Astro.props
 ---
 
-<section class="hero my-24">
+<!-- 1. Changed my-24 to my-12 to reduce vertical whitespace -->
+<section class="hero my-12">
   <div class="container">
     <div class="grid grid-cols-1 items-center gap-24 lg:grid-cols-2">
+      
       <div class="flex flex-col items-center gap-8 md:items-start">
+        
+        <!-- 2. Your Name and Role -->
         <h1 class="text-center text-6xl md:text-left lg:text-8xl">
-          <slot><span class="text-gradient">Gerasimos Konidaris</span> Developer C#, Unity</slot>
+          <slot>
+            <!-- REPLACE THIS WITH YOUR ACTUAL NAME -->
+            [Your Name]
+            <span class="text-gradient block text-4xl lg:text-6xl mt-2">
+              XR & Gameplay Engineer
+            </span>
+          </slot>
         </h1>
+
+        <!-- 3. The Accessible Mini-Skills (Based on your Resume) -->
+        <div class="flex flex-wrap gap-3 text-sm font-bold text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+          <span>C#</span>
+          <span aria-hidden="true">•</span>
+          
+          <span>Unity / VR</span>
+          <span aria-hidden="true">•</span>
+          
+          <span>Physics</span>
+          <span aria-hidden="true">•</span>
+          
+          <span>Python / AI</span>
+        </div>
+
+        <!-- 4. Your "About Me" Hook -->
+        <p class="text-xl text-center md:text-left text-gray-700 dark:text-gray-200">
+          Bridging scientific thinking with human-centered design. 
+          I build immersive systems (XR) and intelligent mechanics that serve real user needs.
+        </p>
+
+        <!-- 5. Call to Action Buttons -->
         <div class="flex flex-col gap-3 min-[500px]:flex-row">
+          
+          <!-- Button A: Go to Projects (Scrolls down) -->
           <Link
-            href="https://github.com/incluud/accessible-astro-starter"
+            href="#projects"
             isButton
             type="primary"
-            animateOnHover
-            animationType="boop"
           >
-            <Icon aria-hidden="true" name="lucide:star" size="1.5rem" />
-            Star on GitHub
+            <Icon aria-hidden="true" name="lucide:gamepad-2" size="1.5rem" />
+            Play My Games
           </Link>
+
+          <!-- Button B: GitHub (External) -->
           <Link
-            href="https://accessible-astro.incluud.dev/"
+            href="https://github.com/YOUR_USERNAME"
             isButton
             type="secondary"
-            animateOnHover
-            animationType="boop"
+            external
           >
-            <Icon aria-hidden="true" name="lucide:bookmark" size="1.5rem" />
-            Read the docs
+            <Icon aria-hidden="true" name="lucide:github" size="1.5rem" />
+            View Code
           </Link>
         </div>
       </div>
-      <Image class="hidden lg:block" src={src} alt="" decoding="async" width={800} height={600} loading="eager" />
+
+      <!-- 6. The Image (Optional) -->
+      <!-- If you have a headshot, put it in public/ folder and change src below. 
+           If you prefer no image to save space, delete this <Image> block. -->
+      <Image 
+        class="hidden lg:block rounded-3xl shadow-2xl rotate-3 hover:rotate-0 transition-transform duration-500" 
+        src={src} 
+        alt="Photo of Developer" 
+        decoding="async" 
+        width={600} 
+        height={600} 
+        loading="eager" 
+      />
     </div>
   </div>
 </section>
 
 <style lang="scss">
   h1 {
-    text-wrap: unset;
+    text-wrap: balance; /* Makes the title wrap nicely */
   }
 
   .text-gradient {

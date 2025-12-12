@@ -1,64 +1,49 @@
 ---
-title: Voice-First Smart Home Assistant
-author: John Doe
-description: A comprehensive smart home solution designed specifically for users with visual impairments, featuring voice-first interactions and haptic feedback
-tags: ["Accessibility", "Smart-Home", "IoT"] 
+title: Audio-Haptic VR Navigation
+author: Your Name
+description: A VR maze game built in Unity (Meta XR SDK) researching blind navigation. Awarded scholarship for top academic performance.
+tags: ["Unity", "C#", "VR", "Accessibility", "Research"]
 ---
-
-## Project Overview
-
-Our team developed an inclusive smart home solution that makes home automation accessible to everyone, with a special focus on users with visual impairments. The system uses advanced speech recognition and natural language processing to provide intuitive voice control, while incorporating haptic feedback for tactile confirmation of actions.
 
 import BlockQuote from '@components/BlockQuote.astro'
 import BreakoutImage from '@components/BreakoutImage.astro'
 import { Image } from 'astro:assets'
 
+## Project Overview
+
+For my Master Thesis, I designed and developed a **Virtual Reality maze game** specifically for blind and low-vision users. The goal was to research how audio-haptic feedback can replace visual cues in 3D navigation.
+
+**Tech Stack:** Unity, C#, Meta XR SDK, Oculus Quest.
+
 <BreakoutImage src="/projects/project-image-1.png" />
 
-## Technical Challenges
+## Technical Implementation
 
-One of the biggest challenges was creating a reliable voice recognition system that could work effectively in noisy environments and understand diverse speech patterns, including users with speech impediments. We solved this by implementing a custom machine learning model trained on a diverse dataset of voices and ambient conditions.
+The core challenge was creating a navigation system that did not rely on sight. I engineered a custom C# system that translated spatial data into:
+1.  **3D Spatial Audio:** Using HRTF (Head-Related Transfer Functions) to guide the user.
+2.  **Haptic Feedback:** varying controller vibration patterns to indicate proximity to walls or objectives.
 
-## Project Gallery
+## User Testing & Results
+
+I conducted user testing with **16 participants** to evaluate the effectiveness of the system. The data collected was analyzed to refine the navigation algorithms.
 
 <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
   <Image
     src="/projects/project-image-1.png"
-    alt="Smart home assistant interface showing voice command visualization"
+    alt="VR Environment screenshot"
     width={1200}
     height={600}
     class="h-[250px] w-full rounded-lg object-cover"
   />
   <Image
     src="/projects/project-image-2.png"
-    alt="User interacting with the smart home system via voice commands"
-    width={1200}
-    height={600}
-    class="h-[250px] w-full rounded-lg object-cover"
-  />
-  <Image
-    src="/projects/project-image-3.png"
-    alt="Haptic feedback device component of the smart home system"
-    width={1200}
-    height={600}
-    class="h-[250px] w-full rounded-lg object-cover"
-  />
-  <Image
-    src="/projects/project-image-4.png"
-    alt="Dashboard showing analytics of voice command usage patterns"
+    alt="Code snippet of Haptic logic"
     width={1200}
     height={600}
     class="h-[250px] w-full rounded-lg object-cover"
   />
 </div>
 
-## Testimonial
-
-<BlockQuote author="Maria Rodriguez, Beta Tester">
-  This system has given me back my independence at home. The voice controls are so natural, and the haptic feedback
-  helps me confirm every action without needing to see anything.
+<BlockQuote author="Thesis Conclusion">
+  The research demonstrated that multi-sensory feedback significantly improves spatial awareness for non-visual navigation in virtual environments.
 </BlockQuote>
-
-<BreakoutImage src="/projects/project-image-2.png" />
-
-The project continues to evolve with regular updates based on user feedback, with a focus on expanding support for multiple languages and additional accessibility features.

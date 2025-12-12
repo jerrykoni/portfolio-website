@@ -1,0 +1,87 @@
+---
+import { getCollection } from 'astro:content'
+import DefaultLayout from '../../layouts/DefaultLayout.astro'
+import { Breadcrumbs, BreadcrumbsItem } from 'accessible-astro-components'
+
+// 1. Get all blog posts so Astro knows which pages to generate
+export async function getStaticPaths() {
+  const blogEntries = await getCollection('blog')
+  
+  return blogEntries.map((entry) => ({
+    params: { slug: entry.slug },
+    props: { entry },
+  }))
+}
+
+// 2. Get the specific post data
+const { entry } = Astro.props
+const { Content } = await entry.render()
+---
+
+<DefaultLayout title={entry.data.title} description={entry.data.description} url={entry.slug}>
+  <div class="container">
+    <div class="mt-12">
+      <Breadcrumbs>
+        <BreadcrumbsItem href="/" label="Home" />
+        <BreadcrumbsItem href="/blog" label="Blog" />
+        <BreadcrumbsItem currentPage={true} label={entry.data.title} />
+      </Breadcrumbs>
+    </div>
+  </div>
+
+  <section class="my-12">
+    <div class="container">
+      <!-- Header -->
+      <h1 class="text-5xl font-bold mb-4">{entry.data.title}</h1>
+      
+      <div class="flex flex-wrap gap-4 text-sm text-gray-600 dark:text-gray-400 mb-8 uppercase tracking-wider font-bold">
+        <span>By {entry.data.author}</span>
+        <span>•</span>
+        <span>{entry.data.publishDate.toISOString().slice(0, 10)}</span>
+      </div>
+
+      <hr class="border-gray-200 dark:border-gray-700 mb-12" />
+
+      <!-- The Markdown Content -->
+      <!-- The 'content' class helps style standard markdown tags like h2, p, ul -->
+      <div class="content text-lg leading-relaxed max-w-4xl">
+        <Content />
+      </div>
+    </div>
+  </section>
+
+  <!-- Optional: Social Share buttons -->
+  <section class="my-12">
+    <div class="container">
+      <p class="font-bold mb-4">Share this article:</p>
+      <!-- You can re-enable SocialShares if you want them, 
+           but make sure the component exists first! -->
+      <!-- <SocialShares /> -->
+    </div>
+  </section>
+</DefaultLayout>
+
+<style>
+  /* Basic styling for your Markdown content */
+  .content :global(h2) {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-top: 3rem;
+    margin-bottom: 1rem;
+  }
+  .content :global(p) {
+    margin-bottom: 1.5rem;
+  }
+  .content :global(ul) {
+    list-style-type: disc;
+    padding-left: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+  .content :global(li) {
+    margin-bottom: 0.5rem;
+  }
+  .content :global(strong) {
+    font-weight: 700;
+    color: var(--action-color);
+  }
+</style>

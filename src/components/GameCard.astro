@@ -1,0 +1,53 @@
+---
+import { Icon } from 'astro-icon/components'
+
+const { title, description, videoUrl, itchLink } = Astro.props;
+---
+
+<article class="flex flex-col md:flex-row bg-gray-50 dark:bg-gray-800 rounded-3xl overflow-hidden shadow-xl border border-gray-200 dark:border-gray-700 transition-transform hover:scale-[1.01] duration-300">
+  
+  <!-- 1. The Visual Side (Video/Image) -->
+  <!-- On mobile it's top, on desktop it's left (w-1/2) -->
+  <div class="w-full md:w-1/2 bg-black relative aspect-video md:aspect-auto">
+    <video
+      autoplay
+      loop
+      muted
+      playsinline
+      class="w-full h-full object-cover opacity-90"
+    >
+      <!-- We use a placeholder link if you haven't added a video yet -->
+      <source src={videoUrl === "#" ? "https://joy1.videvo.net/videvo_files/video/free/2019-09/large_watermarked/190828_27_SuperMarioBros_1080p_preview.mp4" : videoUrl} type="video/mp4" />
+      Your browser does not support video.
+    </video>
+    
+    <!-- Overlay Gradient for legibility if needed -->
+    <div class="absolute inset-0 bg-linear-to-t from-black/50 to-transparent pointer-events-none"></div>
+  </div>
+
+  <!-- 2. The Content Side -->
+  <div class="w-full md:w-1/2 p-8 flex flex-col justify-center">
+    <h3 class="text-2xl md:text-3xl font-bold mb-4 text-gray-900 dark:text-white">
+      {title}
+    </h3>
+    
+    <p class="text-lg text-gray-700 dark:text-gray-300 mb-6 leading-relaxed">
+      {description}
+    </p>
+    
+    <div class="flex gap-4">
+      <a 
+        href={itchLink} 
+        target="_blank" 
+        rel="noopener noreferrer"
+        class="inline-flex items-center gap-2 bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-3 px-6 rounded-lg transition-colors"
+      >
+        <Icon name="lucide:play" size="1.2rem" />
+        Play / View
+      </a>
+      
+      <!-- Optional: Add a 'Read More' button later for the Deep Dives -->
+    </div>
+  </div>
+
+</article>
