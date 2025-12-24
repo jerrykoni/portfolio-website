@@ -2,74 +2,31 @@
 import DefaultLayout from '@layouts/DefaultLayout.astro'
 import Hero from '@components/Hero.astro'
 import FeaturedProjects from '@components/FeaturedProjects.astro'
-import FeaturedPosts from '@components/FeaturedPosts.astro'
 import Skills from '@components/Skills.astro'
-import ContentMedia from '@components/ContentMedia.astro'
-import { Heading, Link } from 'accessible-astro-components'
-import { Icon } from 'astro-icon/components'
+import Narrative from '@components/Narrative.astro'
+import FeaturedPosts from '@components/FeaturedPosts.astro'
+import Contact from '@components/Contact.astro'
 ---
 
 <DefaultLayout title="Home">
   
-  <!-- 1. HERO: The Hook -->
+  <!-- 1. HERO (Standard BG) -->
   <Hero />
 
-  <!-- 2. PROJECTS: The Proof (Moved to top) -->
-  <FeaturedProjects class="my-12" />
+  <!-- 2. PROJECTS (Tinted BG) -->
+  <FeaturedProjects />
 
-  <!-- 3. SKILLS: The Proficiency -->
+  <!-- 3. SKILLS (Standard BG) -->
+  <!-- Note: Make sure Skills.astro uses py-16 inside it too! -->
   <Skills />
 
-  <!-- 4. BIO HIGHLIGHT: The Narrative (Re-purposed ContentMedia) -->
-  <!-- This highlights your Physics background, which is your "Superpower" -->
-  <ContentMedia imgSrc="/astronaut-hero-img.webp" reverseImg={true}>
-    <Heading level="h2">Physics-Driven Development</Heading>
-    <p class="text-xl text-gray-700 dark:text-gray-300 mb-4">
-      My background in <strong>Astrophysics</strong> allows me to approach game mechanics differently. 
-      Whether it's coding complex rigid-body simulations or calculating vector math for custom shaders, 
-      I bridge the gap between theoretical math and "game feel."
-    </p>
-    <p class="text-xl text-gray-700 dark:text-gray-300">
-      Combined with my Master's research in <strong>Audio-Haptic Accessibility</strong>, 
-      I build systems that are not just technically sound, but inclusive and immersive.
-    </p>
-    <div class="mt-8">
-      <Link href="/about" isButton type="primary">
-        More About Me
-        <Icon aria-hidden="true" name="lucide:arrow-right" size="1.2rem" />
-      </Link>
-    </div>
-  </ContentMedia>
-    
-<!-- 5. BLOG: The Research -->
-  <section class="my-24">
-    <div class="container">
-      <div class="flex flex-col items-center text-center mb-12">
-        <!-- Change Title to be broader -->
-        <Heading level="h2">Technical Insights & Analysis</Heading>
-        
-        <!-- Update description to be clear it's YOUR thoughts on external topics -->
-        <p class="text-xl text-gray-600 dark:text-gray-300 max-w-2xl mt-4">
-          Exploring the intersection of XR, Accessibility, and AI. <br />
-          My breakdown of interesting papers, tech demos, and design challenges.
-        </p>
-      </div>
-      <FeaturedPosts />
-    </div>
-  </section>
+  <!-- 4. NARRATIVE (Tinted BG) -->
+  <Narrative />
 
-  <!-- 6. FINAL CTA: Contact -->
-  <section class="mb-32 mt-24 text-center">
-    <div class="container bg-gray-100 dark:bg-gray-800 p-12 rounded-3xl">
-      <Heading level="h2" class="mb-6">Let's Work Together</Heading>
-      <p class="text-xl mb-8">
-        I am currently looking for opportunities in Gameplay Programming or XR Development.
-      </p>
-      <Link href="mailto:your.email@example.com" isButton type="primary">
-        <Icon aria-hidden="true" name="lucide:mail" size="1.2rem" />
-        Get in Touch
-      </Link>
-    </div>
-  </section>
+  <!-- 5. BLOG (Standard BG) -->
+  <FeaturedPosts />
+
+  <!-- 6. CONTACT (Tinted BG) -->
+  <Contact />
 
 </DefaultLayout>

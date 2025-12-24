@@ -1,0 +1,34 @@
+---
+import ContentMedia from './ContentMedia.astro'
+import { Heading, Link } from 'accessible-astro-components'
+import { Icon } from 'astro-icon/components'
+---
+
+<!-- TINTED SECTION: bg-gray-50 -->
+<!-- We use py-16 (reduced from 24) for tighter spacing -->
+<div class="py-12 md:py-16 bg-gray-50 dark:bg-gray-800 border-t border-b border-gray-200 dark:border-gray-700">
+  <ContentMedia imgSrc="/astronaut-hero-img.webp" reverseImg={true} class="my-0">
+    <Heading level="h2">Physics-Driven Development</Heading>
+    <p class="text-xl text-gray-700 dark:text-gray-300 mb-4">
+      My background in <strong>Astrophysics</strong> allows me to approach game mechanics differently. 
+      Whether it's coding complex rigid-body simulations or calculating vector math for custom shaders, 
+      I bridge the gap between theoretical math and "game feel."
+    </p>
+    <p class="text-xl text-gray-700 dark:text-gray-300">
+      Combined with my Master's research in <strong>Audio-Haptic Accessibility</strong>, 
+      I build systems that are not just technically sound, but inclusive and immersive.
+    </p>
+    <div class="mt-8">
+        <Link 
+        href="/about" 
+        isButton 
+        type="primary"
+        animateOnHover="true"       
+        animationType="nudge"
+        >
+        More About Me
+        <Icon aria-hidden="true" name="lucide:arrow-right" size="1.2rem" />
+      </Link>
+    </div>
+  </ContentMedia>
+</div>

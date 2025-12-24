@@ -1,0 +1,21 @@
+---
+import { Heading, Link } from 'accessible-astro-components'
+import { Icon } from 'astro-icon/components'
+---
+
+<!-- TINTED SECTION -->
+<section id="contact" class="py-12 md:py-16 bg-gray-50 dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 text-center">
+  <div class="container">
+    <!-- Inner Card with White Background for pop -->
+    <div class="bg-white dark:bg-gray-900 p-12 rounded-3xl shadow-xl max-w-4xl mx-auto">
+      <Heading level="h2" class="mb-6">Let's Work Together</Heading>
+      <p class="text-xl mb-8 text-gray-600 dark:text-gray-300">
+        I am currently looking for opportunities in Gameplay Programming or XR Development.
+      </p>
+      <Link href="mailto:your.email@example.com" isButton type="primary">
+        <Icon aria-hidden="true" name="lucide:mail" size="1.2rem" />
+        Get in Touch
+      </Link>
+    </div>
+  </div>
+</section>

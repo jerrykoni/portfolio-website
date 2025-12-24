@@ -43,21 +43,22 @@ const featuredProjects = projects.slice(0, limit).map((project, index) => ({
 }))
 ---
 
-<section class:list={[className, 'my-64']}>
+<section class:list={[className, 'py-12 md:py-16 bg-gray-50 dark:bg-gray-800 border-t border-b border-gray-200 dark:border-gray-700']}>  
   <div class="container">
-    <Heading level="h2" class="mb-6">{title}</Heading>
+    <Heading level="h2" class="mb-12 text-center md:text-left">{title}</Heading>
     <div class="grid grid-cols-1 gap-12 md:grid-cols-2 lg:grid-cols-3">
       {
         featuredProjects.map((project) => (
-          <Card
-            imageComponent={project.featuredImage}
-            url={'/portfolio/' + project.id}
-            headingLevel="h2"
-            title={project.data.title}
-            footer={'Author: ' + project.data.author}
-          >
-            {project.data.description}
-          </Card>
+          <div class="transition-transform duration-300 motion-safe:hover:-translate-y-2 motion-safe:hover:shadow-2xl motion-safe:focus-within:-translate-y-2 motion-safe:focus-within:shadow-2xl rounded-2xl">            <Card
+              imageComponent={project.featuredImage}
+              url={'/portfolio/' + project.id}
+              headingLevel="h2"
+              title={project.data.title}
+              footer={'Author: ' + project.data.author}
+            >
+              {project.data.description}
+            </Card>
+          </div>
         ))
       }
     </div>

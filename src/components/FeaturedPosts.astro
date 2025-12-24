@@ -3,7 +3,7 @@ import { Card, Heading, Link } from 'accessible-astro-components'
 import { Icon } from 'astro-icon/components'
 import { getCollection } from 'astro:content'
 
-// Import images directly for optimization (we keep the default images for now)
+// Imports images...
 import postImage1 from '@assets/images/posts/post-image-1.png'
 import postImage2 from '@assets/images/posts/post-image-2.png'
 import postImage3 from '@assets/images/posts/post-image-3.png'
@@ -14,44 +14,48 @@ interface Props {
   title?: string
 }
 
-const { class: className, limit = 3, title = 'Latest Research' } = Astro.props
+const { class: className, limit = 3, title = 'Technical Insights & Analysis' } = Astro.props
 
-// 1. GET LOCAL POSTS instead of Fake API
-// We fetch the 'blog' collection
 const posts = await getCollection('blog')
 const postImages = [postImage1, postImage2, postImage3]
 
-// 2. SORT & PROCESS
-// We sort by date (newest first) and add the images
 const featuredPosts = posts
   .sort((a, b) => new Date(b.data.publishDate).valueOf() - new Date(a.data.publishDate).valueOf())
   .slice(0, limit)
   .map((post, index) => ({
     ...post,
-    // Cycle through the default images so every post has one
     featuredImage: postImages[index % postImages.length],
   }))
 ---
 
-<section class:list={[className, 'my-24']}>
+<section class:list={[className, 'py-12 md:py-16']}>
   <div class="container">
-    <Heading level="h2" class="mb-6">{title}</Heading>
+    <div class="mb-12">
+      <Heading level="h2" class="mb-4 text-center md:text-left">{title}</Heading>
+      <p class="text-xl text-gray-600 dark:text-gray-300 text-center md:text-left max-w-2xl">
+        Exploring the intersection of XR, Accessibility, and AI. <br class="hidden md:block" />
+        My breakdown of interesting papers, tech demos, and design challenges.
+      </p>
+    </div>
+
+    <!-- GRID -->
     <div class="grid grid-cols-1 gap-12 md:grid-cols-2 lg:grid-cols-3">
       {
         featuredPosts.map((post) => (
-          <Card
-            imageComponent={post.featuredImage}
-            url={'/blog/' + post.slug}
-            headingLevel="h3"
-            title={post.data.title}
-            footer={'Posted: ' + post.data.publishDate.toISOString().slice(0, 10)}
-          >
-            {/* We show the description, not the full body */}
-            {post.data.description}
-          </Card>
+          <div class="transition-transform duration-300 motion-safe:hover:-translate-y-2 motion-safe:hover:shadow-2xl motion-safe:focus-within:-translate-y-2 motion-safe:focus-within:shadow-2xl rounded-2xl">            <Card
+              imageComponent={post.featuredImage}
+              url={'/blog/' + post.slug}
+              headingLevel="h3"
+              title={post.data.title}
+              footer={'Posted: ' + post.data.publishDate.toISOString().slice(0, 10)}
+            >
+              {post.data.description}
+            </Card>
+          </div>
         ))
       }
     </div>
+
     <div class="mt-12">
       <Link href="/blog/" isButton animateOnHover animationType="nudge">
         Read all papers
