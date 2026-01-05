@@ -18,6 +18,7 @@ const viteConfig = {
   css: {
     preprocessorOptions: {
       scss: {
+        api: 'modern-compiler',
         logger: {
           warn: () => {},
         },
