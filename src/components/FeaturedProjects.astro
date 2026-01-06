@@ -1,5 +1,6 @@
 ---
-import { Card, Heading, Link } from 'accessible-astro-components'
+import ProjectCard from './ProjectCard.astro'
+import { Heading, Link } from 'accessible-astro-components'
 import { Icon } from 'astro-icon/components'
 import { getCollection } from 'astro:content'
 
@@ -49,15 +50,18 @@ const featuredProjects = projects.slice(0, limit).map((project, index) => ({
     <div class="grid grid-cols-1 gap-12 md:grid-cols-2 lg:grid-cols-3">
       {
         featuredProjects.map((project) => (
-          <div class="transition-transform duration-300 motion-safe:hover:-translate-y-2 motion-safe:hover:shadow-2xl motion-safe:focus-within:-translate-y-2 motion-safe:focus-within:shadow-2xl rounded-2xl">            <Card
+          <div class="transition-transform duration-300 motion-safe:hover:-translate-y-2 motion-safe:hover:shadow-2xl motion-safe:focus-within:-translate-y-2 motion-safe:focus-within:shadow-2xl rounded-2xl">
+            <ProjectCard
               imageComponent={project.featuredImage}
+              imageAlt={project.data.title}
+              loading="eager"
               url={'/portfolio/' + project.id}
               headingLevel="h2"
               title={project.data.title}
               footer={'Author: ' + project.data.author}
             >
               {project.data.description}
-            </Card>
+            </ProjectCard>
           </div>
         ))
       }
