@@ -1,4 +1,3 @@
----
 name: "prepare-release"
 
 on:
@@ -6,12 +5,14 @@ on:
     branches:
       - "main"
   workflow_dispatch:
-    
+
+permissions:
+  contents: write
+
 jobs:
   pre-release:
     name: "Prepare Release"
     runs-on: "ubuntu-latest"
-
     steps:
       - uses: "marvinpinto/action-automatic-releases@latest"
         with:
