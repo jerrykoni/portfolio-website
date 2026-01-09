@@ -1,0 +1,75 @@
+---
+interface Props {
+  desktopHref?: string
+  mobileHref?: string
+  desktopLabel?: string
+  mobileLabel?: string
+}
+
+const {
+  desktopHref = '#skills',
+  mobileHref = '#mobile-projects',
+  desktopLabel = 'Skills',
+  mobileLabel = 'Projects',
+}: Props = Astro.props
+---
+
+<div class="scroll-indicator">
+  <a
+    href={desktopHref}
+    class="hidden flex-col items-center gap-2 text-gray-600 transition-colors hover:text-gray-900 lg:flex dark:text-gray-400 dark:hover:text-gray-100"
+    aria-label={`Scroll to ${desktopLabel.toLowerCase()} section`}
+  >
+    <span class="text-sm font-medium">{desktopLabel}</span>
+    <svg
+      aria-hidden="true"
+      class="h-8 w-8 animate-bounce"
+      fill="none"
+      stroke="currentColor"
+      viewBox="0 0 24 24"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+    </svg>
+  </a>
+  <a
+    href={mobileHref}
+    class="flex flex-col items-center gap-2 text-gray-600 transition-colors hover:text-gray-900 lg:hidden dark:text-gray-400 dark:hover:text-gray-100"
+    aria-label={`Scroll to ${mobileLabel.toLowerCase()} section`}
+  >
+    <span class="text-sm font-medium">{mobileLabel}</span>
+    <svg
+      aria-hidden="true"
+      class="h-8 w-8 animate-bounce"
+      fill="none"
+      stroke="currentColor"
+      viewBox="0 0 24 24"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+    </svg>
+  </a>
+</div>
+
+<style lang="scss">
+  .scroll-indicator {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .scroll-indicator span {
+    font-size: 1.5rem;
+    line-height: 2rem;
+  }
+
+  .scroll-indicator .gap-2 {
+    gap: 1.25rem; // Increase gap between label and arrow
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .animate-bounce {
+      animation: none;
+    }
+  }
+</style>

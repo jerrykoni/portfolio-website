@@ -1,0 +1,299 @@
+---
+import { getCollection } from 'astro:content'
+import { Icon } from 'astro-icon/components'
+import { Image } from 'astro:assets'
+
+// Import images directly for optimization
+import projectImage1 from '@assets/images/projects/project-image-1.png'
+import projectImage2 from '@assets/images/projects/project-image-2.png'
+import projectImage3 from '@assets/images/projects/project-image-3.png'
+
+// Get projects from content collection
+const projects = await getCollection('projects')
+const projectImages = [projectImage1, projectImage2, projectImage3]
+
+// Get first 3 projects and add featured images
+const featuredProjects = projects.slice(0, 3).map((project, index) => ({
+  ...project,
+  featuredImage: projectImages[index % projectImages.length],
+}))
+---
+
+<section 
+  class="project-carousel relative w-full items-center justify-center p-4 lg:flex"
+  aria-roledescription="carousel"
+  aria-label="Featured Projects"
+>
+  <!-- Main Carousel Container -->
+  <div class="carousel-container relative aspect-[4/5] w-full max-w-md perspective-1000 md:aspect-square">
+    
+    <div class="carousel-track relative h-full w-full" id="carousel-track">
+      {
+        featuredProjects.map((project, index) => (
+          <article
+            class="carousel-slide absolute inset-0 transition-all duration-700 ease-out"
+            role="group"
+            aria-roledescription="slide"
+            aria-label={`${index + 1} of ${featuredProjects.length}`}
+            data-index={index}
+            style={`z-index: ${index === 0 ? 2 : 1}; opacity: ${index === 0 ? 1 : 0}; visibility: ${index === 0 ? 'visible' : 'hidden'}; pointer-events: ${index === 0 ? 'auto' : 'none'};`}
+          >
+            <div class="group h-full w-full overflow-hidden rounded-2xl border border-neutral-200 bg-white/80 shadow-2xl backdrop-blur-xl ring-1 ring-black/5 dark:border-white/20 dark:bg-neutral-900/80 dark:ring-white/10">
+              
+              <!-- Image Section -->
+              <div class="relative h-3/5 w-full overflow-hidden">
+                <Image 
+                  src={project.featuredImage} 
+                  alt={project.data.title} 
+                  class="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+                />
+                <!-- Gradient Overlay: Adaptive for light/dark mode -->
+                <div class="absolute inset-0 bg-gradient-to-t from-white via-white/40 to-transparent dark:from-neutral-900 dark:via-neutral-900/60"></div>
+              </div>
+
+              <!-- Content Section -->
+              <div class="relative flex h-2/5 flex-col justify-between p-6">
+                <div>
+                  <!-- Tags / Meta -->
+                  <span class="mb-2 inline-block rounded-full bg-[var(--color-primary-400)]/20 px-3 py-1 text-xs font-bold uppercase tracking-wider text-[var(--color-primary-600)] backdrop-blur-sm border border-[var(--color-primary-400)]/20 dark:text-[var(--color-primary-200)]">
+                    Featured
+                  </span>
+                  
+                  <h3 class="mb-2 font-heading text-2xl font-bold text-wrap text-neutral-900 dark:text-white">
+                    <a href={`/portfolio/${project.id}`} class="hover:text-[var(--color-primary-600)] dark:hover:text-[var(--color-primary-300)] focus:outline-none focus:text-[var(--color-primary-600)] dark:focus:text-[var(--color-primary-300)]">
+                      {project.data.title}
+                      <span class="absolute inset-0" aria-hidden="true"></span>
+                    </a>
+                  </h3>
+                  
+                  <p class="line-clamp-2 text-sm text-neutral-600 dark:text-neutral-100">
+                    {project.data.description}
+                  </p>
+                </div>
+
+                <!-- Footer / Action -->
+                <div class="flex items-center justify-between border-t border-neutral-200 pt-4 text-xs font-medium text-neutral-500 dark:border-white/10 dark:text-neutral-300">
+                  <span>{project.data.author}</span>
+                  <div class="flex items-center gap-1 text-[var(--color-primary-600)] opacity-0 transition-opacity group-hover:opacity-100 group-focus-within:opacity-100 dark:text-[var(--color-primary-300)]">
+                    View Project <Icon name="lucide:arrow-right" class="size-4" />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </article>
+        ))
+      }
+    </div>
+
+    <!-- Controls -->
+    <div class="absolute -bottom-16 left-0 right-0 z-30 flex items-center justify-between px-4">
+      
+      <!-- Indicators -->
+      <div class="flex gap-3" role="tablist" aria-label="Slides">
+        {featuredProjects.map((_, index) => (
+          <button
+            class={`h-2 rounded-full transition-all duration-300 ${index === 0 ? 'w-8 bg-[var(--color-secondary-400)]' : 'w-2 bg-neutral-300 dark:bg-neutral-600 hover:bg-neutral-400'}`}
+            role="tab"
+            aria-selected={index === 0}
+            aria-label={`Go to slide ${index + 1}`}
+            data-indicator={index}
+          ></button>
+        ))}
+      </div>
+
+      <!-- Navigation Buttons -->
+      <div class="flex gap-2">
+        <button 
+          id="prev-btn"
+          class="flex size-10 items-center justify-center rounded-full border border-neutral-200 bg-white/40 text-neutral-900 backdrop-blur-md transition-all hover:bg-[var(--color-primary-500)] hover:text-white dark:border-white/10 dark:bg-neutral-900/40 dark:text-white"
+          aria-label="Previous slide"
+        >
+          <Icon name="lucide:arrow-left" class="size-5" />
+        </button>
+        <button 
+          id="next-btn"
+          class="flex size-10 items-center justify-center rounded-full border border-neutral-200 bg-white/40 text-neutral-900 backdrop-blur-md transition-all hover:bg-[var(--color-primary-500)] hover:text-white dark:border-white/10 dark:bg-neutral-900/40 dark:text-white"
+          aria-label="Next slide"
+        >
+          <Icon name="lucide:arrow-right" class="size-5" />
+        </button>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<style>
+  .perspective-1000 {
+    perspective: 1000px;
+  }
+  
+  /* Slide States */
+  .slide-active {
+    z-index: 2 !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    pointer-events: auto !important;
+    transform: translateX(0) scale(1) !important;
+  }
+
+  .slide-next {
+    z-index: 1 !important;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transform: translateX(30px) scale(0.95);
+  }
+
+  .slide-prev {
+    z-index: 1 !important;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transform: translateX(-30px) scale(0.95);
+  }
+
+  .carousel-slide {
+    will-change: transform, opacity;
+  }
+</style>
+
+<script>
+  class Carousel {
+    container: HTMLElement;
+    slides: NodeListOf<HTMLElement>;
+    indicators: NodeListOf<HTMLElement>;
+    prevBtn: HTMLElement | null;
+    nextBtn: HTMLElement | null;
+    currentIndex: number;
+    rotationInterval: number | null;
+    isAnimating: boolean;
+
+    constructor(el: HTMLElement) {
+      this.container = el;
+      this.slides = el.querySelectorAll('.carousel-slide');
+      this.indicators = el.querySelectorAll('[data-indicator]');
+      this.prevBtn = el.querySelector('#prev-btn');
+      this.nextBtn = el.querySelector('#next-btn');
+      this.currentIndex = 0;
+      this.rotationInterval = null;
+      this.isAnimating = false;
+
+      this.init();
+    }
+
+    init() {
+      // Event Listeners
+      this.prevBtn?.addEventListener('click', () => {
+        this.stopAutoRotate();
+        this.prev();
+      });
+      
+      this.nextBtn?.addEventListener('click', () => {
+        this.stopAutoRotate();
+        this.next();
+      });
+
+      this.indicators.forEach((indicator, idx) => {
+        indicator.addEventListener('click', () => {
+          this.stopAutoRotate();
+          this.goTo(idx);
+        });
+      });
+
+      // Keyboard Navigation
+      this.container.addEventListener('keydown', (e: KeyboardEvent) => {
+        if (e.key === 'ArrowLeft') {
+          this.stopAutoRotate();
+          this.prev();
+        } else if (e.key === 'ArrowRight') {
+          this.stopAutoRotate();
+          this.next();
+        }
+      });
+
+      // Hover Pause
+      this.container.addEventListener('mouseenter', () => this.stopAutoRotate());
+      this.container.addEventListener('mouseleave', () => this.startAutoRotate());
+      this.container.addEventListener('focusin', () => this.stopAutoRotate());
+      this.container.addEventListener('focusout', () => this.startAutoRotate());
+
+      // Start
+      this.updateSlides();
+      this.startAutoRotate();
+    }
+
+    startAutoRotate() {
+      if (this.rotationInterval) clearInterval(this.rotationInterval);
+      this.rotationInterval = window.setInterval(() => {
+        this.next();
+      }, 5000);
+    }
+
+    stopAutoRotate() {
+      if (this.rotationInterval) {
+        clearInterval(this.rotationInterval);
+        this.rotationInterval = null;
+      }
+    }
+
+    updateSlides() {
+      this.slides.forEach((slide, idx) => {
+        slide.classList.remove('slide-active', 'slide-next', 'slide-prev');
+        
+        if (idx === this.currentIndex) {
+            slide.classList.add('slide-active');
+            slide.setAttribute('aria-hidden', 'false');
+        } else if (idx === (this.currentIndex + 1) % this.slides.length || (this.currentIndex === this.slides.length - 1 && idx === 0)) {
+            slide.classList.add('slide-next');
+            slide.setAttribute('aria-hidden', 'true');
+        } else {
+            slide.classList.add('slide-prev');
+            slide.setAttribute('aria-hidden', 'true');
+        }
+      });
+
+      // Update Indicators
+      this.indicators.forEach((ind, idx) => {
+        const isCurrent = idx === this.currentIndex;
+        ind.setAttribute('aria-selected', isCurrent.toString());
+        if (isCurrent) {
+          ind.classList.remove('w-2', 'bg-neutral-300', 'dark:bg-neutral-600', 'hover:bg-neutral-400');
+          ind.classList.add('w-8', 'bg-[var(--color-secondary-400)]'); 
+        } else {
+          ind.classList.add('w-2', 'bg-neutral-300', 'dark:bg-neutral-600', 'hover:bg-neutral-400');
+          ind.classList.remove('w-8', 'bg-[var(--color-secondary-400)]');
+        }
+      });
+    }
+
+    next() {
+      this.currentIndex = (this.currentIndex + 1) % this.slides.length;
+      this.updateSlides();
+    }
+
+    prev() {
+      this.currentIndex = (this.currentIndex - 1 + this.slides.length) % this.slides.length;
+      this.updateSlides();
+    }
+
+    goTo(index: number) {
+      if (index >= 0 && index < this.slides.length) {
+        this.currentIndex = index;
+        this.updateSlides();
+      }
+    }
+  }
+
+  function initCarousel() {
+    const carouselEl = document.querySelector('.project-carousel') as HTMLElement;
+    if (carouselEl && !carouselEl.dataset.initialized) {
+      new Carousel(carouselEl);
+      carouselEl.dataset.initialized = 'true';
+    }
+  }
+
+  // Initialize on page load and on view transitions
+  initCarousel();
+  document.addEventListener('astro:page-load', initCarousel);
+</script>

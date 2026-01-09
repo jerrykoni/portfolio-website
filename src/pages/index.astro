@@ -10,14 +10,15 @@ import Contact from '@components/Contact.astro'
 
 <DefaultLayout title="Home">
   
-  <!-- 1. HERO (Standard BG) -->
+  <!-- 1. HERO (Full Viewport Height) -->
   <Hero />
 
-  <!-- 2. PROJECTS (Tinted BG) -->
-  <FeaturedProjects />
+  <!-- 2. MOBILE PROJECTS (Hidden on Desktop, Visible on Mobile) -->
+  <div class="lg:hidden">
+    <FeaturedProjects />
+  </div>
 
   <!-- 3. SKILLS (Standard BG) -->
-  <!-- Note: Make sure Skills.astro uses py-16 inside it too! -->
   <Skills />
 
   <!-- 4. NARRATIVE (Tinted BG) -->

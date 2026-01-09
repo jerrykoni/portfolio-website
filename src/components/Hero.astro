@@ -1,108 +1,237 @@
 ---
 import { Link } from 'accessible-astro-components'
 import { Icon } from 'astro-icon/components'
-import { Image } from 'astro:assets'
+import ProjectCarousel from './ProjectCarousel.astro'
+import ScrollIndicator from './ScrollIndicator.astro'
 
 interface Props {
-  src?: string
+  name?: string
+  title?: string
 }
 
-const { src = '/astronaut-hero-img.webp' }: Props = Astro.props
+const { name = '[Your Name]', title = 'XR & Gameplay Engineer' }: Props = Astro.props
 ---
 
-<!-- 1. Changed my-24 to my-12 to reduce vertical whitespace -->
-<section class="hero my-12">
-  <div class="container">
-    <div class="grid grid-cols-1 items-center gap-24 lg:grid-cols-2">
-      
-      <div class="flex flex-col items-center gap-8 md:items-start">
-        
-        <!-- 2. Your Name and Role -->
-        <h1 class="text-center text-6xl md:text-left lg:text-8xl">
-          <slot>
-            <!-- REPLACE THIS WITH YOUR ACTUAL NAME -->
-            [Your Name]
-            <span class="text-gradient block text-4xl lg:text-6xl mt-2">
-              XR & Gameplay Engineer
-            </span>
-          </slot>
+<section class="hero relative flex min-h-screen flex-col overflow-hidden">
+  <!-- Background Decorations -->
+  <div class="hero-bg absolute inset-0 -z-10" aria-hidden="true">
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+  </div>
+
+  <div class="relative z-10 container flex flex-1 flex-col items-center justify-center">
+    <div class="grid w-full grid-cols-1 items-center gap-12 lg:grid-cols-2">
+      <!-- Left Column: Text Content -->
+      <div class="text-content flex flex-col items-center gap-8 md:items-start">
+        <!-- Name and Title -->
+        <h1 class="animate-fade-up text-center text-6xl md:text-left lg:text-8xl">
+          {name}
+          <span class="text-gradient mt-2 block text-4xl lg:text-6xl">
+            {title}
+          </span>
         </h1>
 
-        <!-- 3. The Accessible Mini-Skills (Based on your Resume) -->
-        <div class="flex flex-wrap gap-3 text-sm font-bold text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-          <span>C#</span>
-          <span aria-hidden="true">•</span>
-          
-          <span>Unity / VR</span>
-          <span aria-hidden="true">•</span>
-          
-          <span>Physics</span>
-          <span aria-hidden="true">•</span>
-          
-          <span>Python / AI</span>
-        </div>
+        <!-- Skills Tags (Semantic List) -->
+        <ul
+          class="animate-fade-up flex flex-wrap justify-center gap-3 delay-100 md:justify-start"
+          aria-label="Core Skills"
+        >
+          <li class="skill-chip">C#</li>
+          <li class="skill-chip">Unity / VR</li>
+          <li class="skill-chip">Physics</li>
+          <li class="skill-chip">Python / AI</li>
+        </ul>
 
-        <!-- 4. Your "About Me" Hook -->
-        <p class="text-xl text-center md:text-left text-gray-700 dark:text-gray-200">
-          Bridging scientific thinking with human-centered design. 
-          I build immersive systems (XR) and intelligent mechanics that serve real user needs.
+        <!-- Bio -->
+        <p
+          class="animate-fade-up max-w-prose text-center text-xl text-gray-700 delay-200 md:text-left dark:text-gray-200"
+        >
+          Physics-driven game mechanics and immersive XR experiences. Building intelligent systems that blend scientific
+          rigor with player-centered design.
         </p>
 
-        <!-- 5. Call to Action Buttons -->
-        <div class="flex flex-col gap-3 min-[500px]:flex-row">
-          
-          <!-- Button A: Go to Projects (Scrolls down) -->
-          <Link
-            href="#projects"
-            isButton
-            type="primary"
-          >
+        <!-- Call to Action Buttons -->
+        <div class="animate-fade-up flex flex-col gap-3 delay-300 min-[500px]:flex-row">
+          <!-- Primary: Play My Games -->
+          <Link href="/portfolio" isButton type="primary">
             <Icon aria-hidden="true" name="lucide:gamepad-2" size="1.5rem" />
             Play My Games
           </Link>
 
-          <!-- Button B: GitHub (External) -->
-          <Link
-            href="https://github.com/YOUR_USERNAME"
-            isButton
-            type="secondary"
-            external
-          >
-            <Icon aria-hidden="true" name="lucide:github" size="1.5rem" />
-            View Code
+          <!-- Secondary: Download Resume -->
+          <Link href="/resume.pdf" isButton type="secondary" download>
+            <Icon aria-hidden="true" name="lucide:download" size="1.5rem" />
+            Download Resume
           </Link>
         </div>
       </div>
 
-      <!-- 6. The Image (Optional) -->
-      <!-- If you have a headshot, put it in public/ folder and change src below. 
-           If you prefer no image to save space, delete this <Image> block. -->
-      <Image 
-        class="hidden lg:block rounded-3xl shadow-2xl rotate-3 hover:rotate-0 transition-transform duration-500" 
-        src={src} 
-        alt="Photo of Developer" 
-        decoding="async" 
-        width={600} 
-        height={600} 
-        loading="eager" 
-      />
+      <!-- Right Column: Project Carousel (Desktop Only) -->
+      <div class="animate-fade-in hidden items-center justify-center delay-500 lg:flex">
+        <ProjectCarousel />
+      </div>
+    </div>
+
+    <!-- Scroll Indicator Wrapper -->
+    <div class="scroll-indicator-wrapper animate-fade-in delay-700">
+      <ScrollIndicator />
     </div>
   </div>
 </section>
 
 <style lang="scss">
+  .hero {
+    /* Ensure background honors theme but allows blobs to show */
+    background-color: var(--background-color);
+  }
+
+  .hero-bg {
+    overflow: hidden;
+
+    .blob {
+      position: absolute;
+      opacity: 0.4;
+      filter: blur(80px);
+      animation: float 20s infinite alternate cubic-bezier(0.4, 0, 0.2, 1);
+      border-radius: 50%;
+    }
+
+    .blob-1 {
+      top: -10%;
+      left: -10%;
+      animation-delay: -5s;
+      background: var(--color-primary-400); // Using design tokens
+      width: 50vw;
+      height: 50vw;
+    }
+
+    .blob-2 {
+      right: -10%;
+      bottom: -10%;
+      background: var(--color-secondary-400); // Using design tokens
+      width: 40vw;
+      height: 40vw;
+    }
+  }
+
   h1 {
-    text-wrap: balance; /* Makes the title wrap nicely */
+    font-family: var(--font-heading);
+    text-wrap: balance;
   }
 
   .text-gradient {
     background: linear-gradient(
       315deg,
-      light-dark(var(--color-primary-300), var(--color-secondary-100)) 25%,
-      light-dark(var(--color-secondary-300), var(--color-primary-200))
+      light-dark(var(--color-primary-400), var(--color-secondary-200)) 25%,
+      light-dark(var(--color-secondary-400), var(--color-primary-200))
     );
     background-clip: border-box;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+    display: inline-block; /* Fixes gradient clipping on some browsers */
+  }
+
+  /* Skill Chips Styling */
+  .skill-chip {
+    transition: all 0.2s var(--cubic-bezier);
+    cursor: default;
+    border: 1px solid var(--border-color-subtle);
+    border-radius: 9999px; // Pill shape
+    background: light-dark(rgba(0, 0, 0, 0.05), rgba(255, 255, 255, 0.05));
+    padding: 0.5rem 1rem;
+    color: var(--foreground-color);
+    font-weight: 600;
+    font-size: var(--font-size--1);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--elevation-2);
+      border-color: var(--color-primary-300);
+      background: light-dark(rgba(214, 72, 255, 0.1), rgba(214, 72, 255, 0.1)); // Hint of brand color
+    }
+  }
+
+  .container {
+    padding-top: 5rem;
+    padding-bottom: 5rem;
+    min-height: 100vh; // Ensure full viewport height
+  }
+
+  .scroll-indicator-wrapper {
+    margin-top: auto; // Pushes to bottom
+    margin-bottom: 2rem;
+  }
+
+  /* Animations */
+  @keyframes float {
+    0% {
+      transform: translate(0, 0) rotate(0deg);
+    }
+    100% {
+      transform: translate(50px, 50px) rotate(10deg);
+    }
+  }
+
+  .animate-fade-up {
+    opacity: 0;
+    animation: fadeUp 0.8s var(--cubic-bezier) forwards;
+  }
+
+  .animate-fade-in {
+    opacity: 0;
+    animation: fadeIn 1s var(--cubic-bezier) forwards;
+  }
+
+  @keyframes fadeUp {
+    from {
+      transform: translateY(20px);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  /* Stagger Delays */
+  .delay-100 {
+    animation-delay: 0.1s;
+  }
+  .delay-200 {
+    animation-delay: 0.2s;
+  }
+  .delay-300 {
+    animation-delay: 0.3s;
+  }
+  .delay-500 {
+    animation-delay: 0.5s;
+  }
+  .delay-700 {
+    animation-delay: 0.7s;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .animate-fade-up,
+    .animate-fade-in,
+    .hero-bg .blob {
+      opacity: 1; // Ensure visible if animation disabled
+      animation: none;
+    }
+
+    .skill-chip {
+      transform: none !important;
+      transition: none;
+    }
   }
 </style>
