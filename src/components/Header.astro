@@ -51,11 +51,17 @@ import { Icon } from 'astro-icon/components'
         </li>
       </ul>
     </li>
-    <li class="menu-item">
-      <Link href="/contact/">Contact</Link>
+    <li class="menu-item type-icon animate-rotate">
+      <Link href="mailto:jerrykoni@email.com">
+        <Icon aria-hidden="true" name="lucide:mail" />
+        <span class="sr-only">Contact me via Email</span>
+      </Link>
     </li>
-    <li class="menu-item highlight">
-      <Link href="https://accessible-astro.incluud.dev/">Docs </Link>
+    <li class="menu-item type-icon animate-rotate">
+      <Link href="https://www.linkedin.com/in/jerrykoni/">
+        <Icon aria-hidden="true" name="lucide:linkedin" />
+        <span class="sr-only">Go to my LinkedIn profile</span>
+      </Link>
     </li>
     <li class="menu-item type-icon animate-rotate">
       <Link href="https://github.com/incluud/accessible-astro-starter">
